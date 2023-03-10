@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -mp/sort -d 
+ls -mp|sort -d 
