@@ -1,2 +1,2 @@
 0   string  SCHOOL  School data file
-file -m /usr/share/file/magic/school.mgc <school.mgc>
+file -m /usr/share/file/magic/school.mgc <school>
