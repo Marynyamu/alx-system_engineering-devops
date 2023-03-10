@@ -1,2 +1,2 @@
-0   string  SCHOOL  School data file
-file -m /usr/share/file/magic/school.mgc <school>
+echo '0   string  SCHOOL  School data file
+sudo tee /usr/share/file/magic/school.mgc >/dev/null
