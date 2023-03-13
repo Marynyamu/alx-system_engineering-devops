@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -type d \( ! -name . -prune \) | grep -c /.
+find . -type f -name "*.js" -delete
