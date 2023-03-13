@@ -1,2 +1,2 @@
 #!/bin/bash
-echo ./**/ | tr -cd '/' | wc -c
+find .-mindepth 1 type d | wc -l
