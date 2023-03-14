@@ -1,2 +1,2 @@
 #!/bin/bash
-./list_users.sh
+cut -d ':' -f 1,6 /etc/passwd | sort

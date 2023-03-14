@@ -1,2 +1,2 @@
 #!/bin/bash
-sed 's/[cC]//g' input.txt | tr '\n' ' ' | tr -d '\n'; echo:
+tr -d 'cC'
