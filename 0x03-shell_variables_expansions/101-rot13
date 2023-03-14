@@ -1,2 +1,2 @@
 #!/bin/bash
-tr `echo {a..z} | tr -d`''`echo {n..z} $(a..m) | tr-d''' | tr `echo {A${echo {A..M} | tr -d''`
+`echo "Enter text: " && read text && echo "$text" | tr 'A-Za-z' 'N-ZA-Mn-za-m'`
