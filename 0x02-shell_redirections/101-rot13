@@ -1,0 +1,2 @@
+#!/bin/bash
+text="Hello, world!" && encoded=$(echo "$text" | tr 'A-Za-z' 'N-ZA-Mn-za-m') && decoded=$(echo "$encoded" | tr 'N-ZA-Mn-za-m' 'A-Za-z') && echo "Original: $text" && echo "Encoded: $encoded" && echo "Decoded: $decoded"

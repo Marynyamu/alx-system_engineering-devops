@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "ibase=water\n$WATER\nibase=stir\n$STIR" | bc | tr -d '\n' > $BESTCHOL
