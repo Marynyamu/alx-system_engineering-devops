@@ -1,2 +1,2 @@
 #!/bin/bash
-sed -n 'p;n' "${1:-/dev/stdin}"
+cat -n | grep [13579][[:space:]] | tr -s ' ' | cut -f2
