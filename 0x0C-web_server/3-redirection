@@ -1,43 +1,18 @@
 #!/usr/bin/env bash
+# Bash script that configure ab Nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
+sudo ufw allow "Nginx HTTP"
+echo "Hello world!" > /var/www/html/mary.index
+printf %s "server {
+	listen 80;
+	listen [::]:80 default_server;
 
-# Update the package list to ensure we install the latest packages
-sudo apt-get update
+	root /var/www/html;
+	index mary.index index.html index.nginx-debian.html;
 
-# Install nginx with the -y flag to automatically answer 'yes' to prompts
-sudo apt-get install nginx -y
-
-# Create a simple HTML page with "Hello World!"
-echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html
-
-# Define the custom Nginx configuration
-new_config="server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    root /usr/share/nginx/html;
-    index index.html index.htm index.nginx-debian.html;
-    server_name _;
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-
-    location /redirect_me {
-        rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
-    }
-}"
-
-# Create a custom Nginx configuration file
-echo "$new_config" | sudo tee /etc/nginx/sites-available/custom_config
-
-# Create a symbolic link to enable the custom configuration
-sudo ln -s /etc/nginx/sites-available/custom_config /etc/nginx/sites-enabled/
-
-# Check Nginx configuration syntax
-if sudo nginx -t; then
-    # Restart Nginx to apply the changes
-    sudo service nginx restart
-    echo "Nginx configured and restarted successfully."
-else
-    echo "Nginx configuration test failed. Please check your configuration file."
-fi
-
+	location /redirect_me {
+		return 301 http://youtube.com;
+	}
+}" > /etc/nginx/sites-available/default
+sudo service nginx restart
