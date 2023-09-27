@@ -1,18 +1,31 @@
 #!/usr/bin/env bash
-# Bash script that configure ab Nginx
-sudo apt-get -y update
-sudo apt-get -y install nginx
-sudo ufw allow "Nginx HTTP"
-echo "Hello world!" > /var/www/html/mary.index
-printf %s "server {
-	listen 80;
-	listen [::]:80 default_server;
+#install ngix and have a file that returns the string "Hello World inside
 
-	root /var/www/html;
-	index mary.index index.html index.nginx-debian.html;
+sudo apt-get update
+sudo apt-get install nginx -y
+echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html
 
-	location /redirect_me {
-		return 301 http://youtube.com;
-	}
-}" > /etc/nginx/sites-available/default
-sudo service nginx restart
+new_config=\
+"server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+               root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+        location / {
+                try_files \$uri \$uri/ =404;
+        }
+        
+        if (\$request_filename ~ redirect_me){
+            rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+        }
+}
+"
+
+echo "$new_config" > /etc/nginx/sites-available/default
+if [ "$(pgrep nginx)" -le 0 ];
+then
+    service nginx start
+else
+    service nginx restart
+fi;
