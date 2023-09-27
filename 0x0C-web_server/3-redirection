@@ -1,31 +1,43 @@
 #!/usr/bin/env bash
-#install ngix and have a file that returns the string "Hello World inside
 
+# Update the package list to ensure we install the latest packages
 sudo apt-get update
+
+# Install nginx with the -y flag to automatically answer 'yes' to prompts
 sudo apt-get install nginx -y
+
+# Create a simple HTML page with "Hello World!"
 echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html
 
-new_config=\
-"server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-               root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
-        server_name _;
-        location / {
-                try_files \$uri \$uri/ =404;
-        }
-        
-        if (\$request_filename ~ redirect_me){
-            rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
-        }
-}
-"
+# Define the custom Nginx configuration
+new_config="server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /usr/share/nginx/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
 
-echo "$new_config" > /etc/nginx/sites-available/default
-if [ "$(pgrep nginx)" -le 0 ];
-then
-    service nginx start
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    location /redirect_me {
+        rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+    }
+}"
+
+# Create a custom Nginx configuration file
+echo "$new_config" | sudo tee /etc/nginx/sites-available/custom_config
+
+# Create a symbolic link to enable the custom configuration
+sudo ln -s /etc/nginx/sites-available/custom_config /etc/nginx/sites-enabled/
+
+# Check Nginx configuration syntax
+if sudo nginx -t; then
+    # Restart Nginx to apply the changes
+    sudo service nginx restart
+    echo "Nginx configured and restarted successfully."
 else
-    service nginx restart
-fi;
+    echo "Nginx configuration test failed. Please check your configuration file."
+fi
+
