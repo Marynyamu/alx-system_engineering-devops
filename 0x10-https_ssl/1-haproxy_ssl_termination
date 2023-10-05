@@ -48,6 +48,6 @@ frontend marynyamu.tech-https-frontend
 
 backend marynyamu-backend
         balance roundrobin
-        server 126641-web-01 54.162.0.15:80 check
-        server 126641-web-02 54.237.104.124:80 check
+        server 126641-web-01 54.236.230.172 check
+        server 126641-web-02 100.26.210.193 check
 #--marynyamu.tech-params-end--
