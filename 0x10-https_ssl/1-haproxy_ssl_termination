@@ -33,21 +33,21 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
-#--devnderitu.tech-params-begin--
+#--marynyamu.tech-params-begin--
 
 
-frontend devnderitu.tech-http-frontend
+frontend marynyamu.tech-http-frontend
         bind *:80
         http-request set_header X-Forwarded-Proto http
         default_backend devnderitu.tech-backend
 
-frontend devnderitu.tech-https-frontend
+frontend marynyamu.tech-https-frontend
 	bind *:443 ssl crt /etc/haproxy/certs/allfiles.pem
 	http-request set-header X-Forwarded-Proto https
 	default_backend devnderitu.tech-backend
 
-backend nderitu-backend
+backend marynyamu-backend
         balance roundrobin
         server 126641-web-01 54.162.0.15:80 check
         server 126641-web-02 54.237.104.124:80 check
-#--devnderitu.tech-params-end--
+#--marynyamu.tech-params-end--
